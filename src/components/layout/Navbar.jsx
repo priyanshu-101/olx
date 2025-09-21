@@ -1,12 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 
 const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLocationOpen, setIsLocationOpen] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const profileRef = useRef(null)
+  const locationRef = useRef(null)
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const toggleLocation = () => setIsLocationOpen(!isLocationOpen)
+  const toggleProfile = () => setIsProfileOpen(!isProfileOpen)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false)
+      }
+      if (locationRef.current && !locationRef.current.contains(event.target)) {
+        setIsLocationOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   return (
     <motion.nav 
@@ -19,7 +39,7 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
       <div className="bg-gray-50 py-2 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center space-x-4">
-            <div className="relative">
+            <div className="relative" ref={locationRef}>
               <button 
                 onClick={toggleLocation}
                 className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors"
@@ -127,8 +147,9 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
                 </motion.button>
 
                 {/* User Profile */}
-                <div className="relative">
+                <div className="relative" ref={profileRef}>
                   <motion.button 
+                    onClick={toggleProfile}
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
                   >
@@ -140,6 +161,83 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
                       <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
                   </motion.button>
+                  
+                  {/* Profile Dropdown */}
+                  {isProfileOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="absolute top-full right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border z-50"
+                    >
+                      <div className="p-2">
+                        {/* User Info */}
+                        <div className="flex items-center p-3 border-b border-gray-100">
+                          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-lg font-medium">
+                            {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                          </div>
+                          <div className="ml-3">
+                            <p className="font-semibold text-gray-800">{user?.name || 'User Name'}</p>
+                            <p className="text-sm text-gray-500">{user?.email || 'user@example.com'}</p>
+                          </div>
+                        </div>
+                        
+                        {/* Menu Items */}
+                        <div className="py-2">
+                          <button className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg className="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                            </svg>
+                            My Profile
+                          </button>
+                          
+                          <button className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg className="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
+                              <path fillRule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clipRule="evenodd" />
+                            </svg>
+                            My Ads
+                          </button>
+                          
+                          <button className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg className="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                            </svg>
+                            Favorites
+                          </button>
+                          
+                          <button className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg className="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clipRule="evenodd" />
+                            </svg>
+                            Chat History
+                          </button>
+                          
+                          <button className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg className="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+                            </svg>
+                            Settings
+                          </button>
+                          
+                          <button className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg className="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                            </svg>
+                            Help & Support
+                          </button>
+                          
+                          <div className="border-t border-gray-100 mt-2 pt-2">
+                            <button className="flex items-center w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                              <svg className="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
+                              </svg>
+                              Logout
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
               </>
             ) : (
