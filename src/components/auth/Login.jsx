@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion as Motion } from 'framer-motion'
 import GoogleAuth from './GoogleAuth'
 
-const Login = ({ onToggleAuth }) => {
+const Login = ({ onToggleAuth, onAuthSuccess }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -20,7 +20,12 @@ const Login = ({ onToggleAuth }) => {
     console.log('Google Sign-in clicked')
     // Simulate Google OAuth process
     setTimeout(() => {
-      alert('Google Sign-in functionality will be implemented here!')
+      if (onAuthSuccess) {
+        onAuthSuccess({
+          name: 'Google User',
+          email: 'user@gmail.com'
+        })
+      }
     }, 500)
   }
 
@@ -28,7 +33,12 @@ const Login = ({ onToggleAuth }) => {
     console.log('Facebook Sign-in clicked')
     // Simulate Facebook OAuth process
     setTimeout(() => {
-      alert('Facebook Sign-in functionality will be implemented here!')
+      if (onAuthSuccess) {
+        onAuthSuccess({
+          name: 'Facebook User',
+          email: 'user@facebook.com'
+        })
+      }
     }, 500)
   }
 
@@ -39,6 +49,13 @@ const Login = ({ onToggleAuth }) => {
     setTimeout(() => {
       setIsLoading(false)
       console.log('Login submitted:', formData)
+      // Simulate successful login
+      if (onAuthSuccess) {
+        onAuthSuccess({
+          name: formData.email.split('@')[0],
+          email: formData.email
+        })
+      }
     }, 2000)
   }
 
@@ -196,6 +213,16 @@ const Login = ({ onToggleAuth }) => {
               className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
             >
               Sign up here
+            </button>
+          </p>
+          
+          {/* Demo button to skip auth */}
+          <p className="mt-4 text-center">
+            <button
+              onClick={() => onAuthSuccess && onAuthSuccess({ name: 'Demo User', email: 'demo@example.com' })}
+              className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              Skip to Main App (Demo)
             </button>
           </p>
         </Motion.div>

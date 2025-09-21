@@ -3,11 +3,18 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Login from './Login'
 import Signup from './Signup'
 
-const Auth = () => {
+const Auth = ({ onAuthSuccess }) => {
   const [isLogin, setIsLogin] = useState(true)
 
   const toggleAuth = () => {
     setIsLogin(!isLogin)
+  }
+
+  const handleAuthSuccess = (userData) => {
+    // Simulate successful authentication
+    if (onAuthSuccess) {
+      onAuthSuccess(userData)
+    }
   }
 
   return (
@@ -20,7 +27,7 @@ const Auth = () => {
           exit={{ opacity: 0, x: 100 }}
           transition={{ duration: 0.3 }}
         >
-          <Login onToggleAuth={toggleAuth} />
+          <Login onToggleAuth={toggleAuth} onAuthSuccess={handleAuthSuccess} />
         </motion.div>
       ) : (
         <motion.div
@@ -30,7 +37,7 @@ const Auth = () => {
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 0.3 }}
         >
-          <Signup onToggleAuth={toggleAuth} />
+          <Signup onToggleAuth={toggleAuth} onAuthSuccess={handleAuthSuccess} />
         </motion.div>
       )}
     </AnimatePresence>

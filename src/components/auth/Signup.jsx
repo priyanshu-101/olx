@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import GoogleAuth from './GoogleAuth'
 
-const Signup = ({ onToggleAuth }) => {
+const Signup = ({ onToggleAuth, onAuthSuccess }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -64,6 +64,13 @@ const Signup = ({ onToggleAuth }) => {
     setTimeout(() => {
       setIsLoading(false)
       console.log('Signup submitted:', formData)
+      // Simulate successful signup
+      if (onAuthSuccess) {
+        onAuthSuccess({
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email
+        })
+      }
     }, 2000)
   }
 
