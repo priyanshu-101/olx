@@ -8,6 +8,7 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
     password: ''
   })
   const [contactError, setContactError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(false)
 
   const handleInputChange = (e) => {
@@ -17,6 +18,9 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
     });
     if (e.target.name === 'contact') {
       setContactError('');
+    }
+    if (e.target.name === 'password') {
+      setPasswordError('');
     }
   };
 
@@ -48,20 +52,30 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     // Validation for contact (email or phone)
     const value = formData.contact.trim();
-    let valid = false;
+    let contactValid = false;
     
     if (/^\d{10}$/.test(value)) {
       // 10 digit phone number
-      valid = true;
+      contactValid = true;
     } else if (/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(value)) {
       // Gmail only - must end with @gmail.com
-      valid = true;
+      contactValid = true;
     }
     
-    if (!valid) {
+    if (!contactValid) {
       setContactError('Enter a valid 10-digit phone number or @gmail.com email address');
+      return;
+    }
+    
+    // Password validation
+    const password = formData.password;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/;
+    
+    if (!passwordRegex.test(password)) {
+      setPasswordError('Password must be exactly 8 characters with 1 uppercase, 1 lowercase, 1 digit, and 1 special character');
       return;
     }
     
@@ -128,9 +142,6 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
               )}
             </div>
             {contactError && <p className="text-red-500 text-xs mt-1">{contactError}</p>}
-            <p className="text-xs text-gray-500 mt-1">
-              Use @gmail.com email address or 10-digit Indian mobile number
-            </p>
           </Motion.div>
 
           <Motion.div
@@ -147,9 +158,12 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
               value={formData.password}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 ${passwordError ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="Enter your password"
+              minLength={8}
+              maxLength={8}
             />
+            {passwordError && <p className="text-red-500 text-xs mt-1">{passwordError}</p>}
           </Motion.div>
 
           <Motion.div
