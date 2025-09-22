@@ -4,16 +4,20 @@ import GoogleAuth from './GoogleAuth'
 
 const Login = ({ onToggleAuth, onAuthSuccess }) => {
   const [formData, setFormData] = useState({
-    email: '',
+    contact: '',
     password: ''
   })
+  const [contactError, setContactError] = useState('');
   const [isLoading, setIsLoading] = useState(false)
 
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
-    })
+    });
+    if (e.target.name === 'contact') {
+      setContactError('');
+    }
   };
 
   const handleGoogleSignIn = () => {
@@ -43,21 +47,37 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
-    // Simulate login process
+    e.preventDefault();
+    // Validation for contact (email or phone)
+    const value = formData.contact.trim();
+    let valid = false;
+    
+    if (/^\d{10}$/.test(value)) {
+      // 10 digit phone number
+      valid = true;
+    } else if (/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(value)) {
+      // Gmail only - must end with @gmail.com
+      valid = true;
+    }
+    
+    if (!valid) {
+      setContactError('Enter a valid 10-digit phone number or @gmail.com email address');
+      return;
+    }
+    
+    setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false)
-      console.log('Login submitted:', formData)
-      // Simulate successful login
+      setIsLoading(false);
+      console.log('Login submitted:', formData);
       if (onAuthSuccess) {
         onAuthSuccess({
-          name: formData.email.split('@')[0],
-          email: formData.email
-        })
+          name: value.includes('@') ? value.split('@')[0] : value,
+          email: value.includes('@') ? value : value + '@olxuser.in',
+          contact: value.includes('@') ? value : `+91${value}`
+        });
       }
-    }, 2000)
-  }
+    }, 2000);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
@@ -90,17 +110,27 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
             transition={{ delay: 0.3 }}
           >
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address
+              Email or Contact Number
             </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
-              placeholder="Enter your email"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                name="contact"
+                value={formData.contact}
+                onChange={handleInputChange}
+                required
+                className={`w-full py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 ${contactError ? 'border-red-500' : 'border-gray-300'} ${formData.contact && /^\d/.test(formData.contact) ? 'pl-12 pr-4' : 'px-4'}`}
+                placeholder="Enter @gmail.com email or 10-digit phone number"
+                maxLength={50}
+              />
+              {formData.contact && /^\d/.test(formData.contact) && (
+                <span className="absolute left-3 top-3 text-gray-500 text-sm pointer-events-none">+91</span>
+              )}
+            </div>
+            {contactError && <p className="text-red-500 text-xs mt-1">{contactError}</p>}
+            <p className="text-xs text-gray-500 mt-1">
+              Use @gmail.com email address or 10-digit Indian mobile number
+            </p>
           </Motion.div>
 
           <Motion.div
