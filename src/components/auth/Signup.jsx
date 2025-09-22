@@ -82,7 +82,7 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
         transition={{ duration: 0.6 }}
         className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md"
       >
-        {/* OLX-style header */}
+        {/* SEL-style header */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -90,11 +90,11 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            <span className="text-green-600">O</span>
-            <span className="text-blue-600">L</span>
-            <span className="text-purple-600">X</span>
+            <span className="text-green-600">S</span>
+            <span className="text-blue-600">E</span>
+            <span className="text-purple-600">L</span>
           </h1>
-          <p className="text-gray-600 text-lg">Join OLX today!</p>
+          <p className="text-gray-600 text-lg">Join SEL today!</p>
           <p className="text-gray-500 text-sm">Create your account to start buying and selling</p>
         </motion.div>
 

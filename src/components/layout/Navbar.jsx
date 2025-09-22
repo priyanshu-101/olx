@@ -92,9 +92,9 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
             className="flex-shrink-0 cursor-pointer"
           >
             <h1 className="text-3xl font-bold">
-              <span className="text-green-600">O</span>
-              <span className="text-blue-600">L</span>
-              <span className="text-purple-600">X</span>
+              <span className="text-green-600">S</span>
+              <span className="text-blue-600">E</span>
+              <span className="text-purple-600">L</span>
             </h1>
           </motion.div>
 
