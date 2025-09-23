@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import GoogleAuth from './GoogleAuth'
+import SEL_LOGO from '../../assets/SEL_LOGO.png'
 
 const Signup = ({ onToggleAuth, onAuthSuccess }) => {
   const [formData, setFormData] = useState({
@@ -192,7 +193,7 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 flex items-center justify-center">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -206,11 +207,7 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
           transition={{ delay: 0.2 }}
           className="text-center mb-6"
         >
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            <span className="text-green-600">S</span>
-            <span className="text-blue-600">E</span>
-            <span className="text-purple-600">L</span>
-          </h1>
+          <img src={SEL_LOGO} alt="SEL Logo" className="h-40 w-auto mx-auto" />
           <p className="text-gray-600 text-lg">Join SEL today!</p>
           <p className="text-gray-500 text-sm">Create your account to start buying and selling</p>
         </motion.div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion as Motion } from 'framer-motion'
 import GoogleAuth from './GoogleAuth'
 import OtpVerification from './OtpVerification'
+import SEL_LOGO from '../../assets/SEL_LOGO.png'
 
 const Login = ({ onToggleAuth, onAuthSuccess }) => {
   const [formData, setFormData] = useState({
@@ -148,11 +149,7 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
               transition={{ delay: 0.2 }}
               className="text-center mb-8"
             >
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                <span className="text-green-600">S</span>
-                <span className="text-blue-600">E</span>
-                <span className="text-purple-600">L</span>
-              </h1>
+              <img src={SEL_LOGO} alt="SEL Logo" className="h-40 w-auto mx-auto" />
               <p className="text-gray-600 text-lg">Welcome back!</p>
               <p className="text-gray-500 text-sm">Sign in to your account</p>
             </Motion.div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import SEL_LOGO from '../../assets/SEL_LOGO.png'
 
 const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -91,11 +92,7 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
             whileHover={{ scale: 1.05 }}
             className="flex-shrink-0 cursor-pointer"
           >
-            <h1 className="text-3xl font-bold">
-              <span className="text-green-600">S</span>
-              <span className="text-blue-600">E</span>
-              <span className="text-purple-600">L</span>
-            </h1>
+            <img src={SEL_LOGO} alt="SEL Logo" className="h-12 w-auto" />
           </motion.div>
 
           {/* Search Bar */}
