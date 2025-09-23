@@ -121,7 +121,8 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4"
+    style={{ backgroundColor: '#cbd3d7ff' }}>
       <Motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -216,8 +217,8 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium py-1.5 px-4 rounded text-sm hover:from-blue-700 hover:to-purple-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-          >
+            className="w-full text-white font-medium py-1.5 px-4 rounded text-sm hover:from-blue-700 hover:to-purple-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            style={{ backgroundColor: '#004896' }}>
             {isLoading ? (
               <Motion.div
                 animate={{ rotate: 360 }}
