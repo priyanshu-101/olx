@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion as Motion } from 'framer-motion'
 import GoogleAuth from './GoogleAuth'
+import OtpVerification from './OtpVerification'
 
 const Login = ({ onToggleAuth, onAuthSuccess }) => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,9 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
   const [contactError, setContactError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(false)
+  const [showOtpScreen, setShowOtpScreen] = useState(false)
+  const [generatedOtp, setGeneratedOtp] = useState('')
+  const [otpSentTo, setOtpSentTo] = useState('')
 
   const handleInputChange = (e) => {
     setFormData({
@@ -80,17 +84,51 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
     }
     
     setIsLoading(true);
+    
+    // Simulate login validation (dummy check - always pass for demo)
     setTimeout(() => {
       setIsLoading(false);
-      console.log('Login submitted:', formData);
-      if (onAuthSuccess) {
-        onAuthSuccess({
-          name: value.includes('@') ? value.split('@')[0] : value,
-          email: value.includes('@') ? value : value + '@olxuser.in',
-          contact: value.includes('@') ? value : `+91${value}`
-        });
-      }
+      
+      // Generate random 6-digit OTP
+      const randomOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      setGeneratedOtp(randomOtp);
+      
+      // Set where OTP was sent
+      const destination = value.includes('@') ? value : `+91${value}`;
+      setOtpSentTo(destination);
+      
+      // Show OTP screen
+      setShowOtpScreen(true);
+      
+      // Log the OTP for demo purposes
+      console.log(`OTP sent to ${destination}: ${randomOtp}`);
+      alert(`Demo: OTP sent to ${destination}\nYour OTP is: ${randomOtp}`);
     }, 2000);
+  };
+
+  const handleOtpVerifySuccess = () => {
+    // OTP verified successfully, proceed to home page
+    if (onAuthSuccess) {
+      const value = formData.contact.trim();
+      onAuthSuccess({
+        name: value.includes('@') ? value.split('@')[0] : value,
+        email: value.includes('@') ? value : value + '@olxuser.in',
+        contact: value.includes('@') ? value : `+91${value}`
+      });
+    }
+  };
+
+  const handleBackToLogin = () => {
+    setShowOtpScreen(false);
+  };
+
+  const handleResendOtp = () => {
+    // Generate new OTP
+    const randomOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(randomOtp);
+    
+    console.log(`New OTP sent to ${otpSentTo}: ${randomOtp}`);
+    alert(`Demo: New OTP sent to ${otpSentTo}\nYour OTP is: ${randomOtp}`);
   };
 
   return (
@@ -101,21 +139,23 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
         transition={{ duration: 0.6 }}
         className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md"
       >
-        {/* SEL-style header */}
-        <Motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            <span className="text-green-600">S</span>
-            <span className="text-blue-600">E</span>
-            <span className="text-purple-600">L</span>
-          </h1>
-          <p className="text-gray-600 text-lg">Welcome back!</p>
-          <p className="text-gray-500 text-sm">Sign in to your account</p>
-        </Motion.div>
+        {!showOtpScreen ? (
+          <>
+            {/* SEL-style header */}
+            <Motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-center mb-8"
+            >
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">
+                <span className="text-green-600">S</span>
+                <span className="text-blue-600">E</span>
+                <span className="text-purple-600">L</span>
+              </h1>
+              <p className="text-gray-600 text-lg">Welcome back!</p>
+              <p className="text-gray-500 text-sm">Sign in to your account</p>
+            </Motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Motion.div
@@ -270,6 +310,17 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
             </button>
           </p>
         </Motion.div>
+        </>
+        ) : (
+          /* OTP Verification Screen */
+          <OtpVerification
+            otpSentTo={otpSentTo}
+            generatedOtp={generatedOtp}
+            onVerifySuccess={handleOtpVerifySuccess}
+            onBackToLogin={handleBackToLogin}
+            onResendOtp={handleResendOtp}
+          />
+        )}
       </Motion.div>
     </div>
   )
