@@ -4,12 +4,15 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
   const [isLocationOpen, setIsLocationOpen] = useState(false)
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
   const locationRef = useRef(null)
   const languageRef = useRef(null)
+  const categoriesRef = useRef(null)
 
   const toggleLocation = () => setIsLocationOpen(!isLocationOpen)
   const toggleLanguage = () => setIsLanguageOpen(!isLanguageOpen)
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const toggleCategories = () => setIsCategoriesOpen(!isCategoriesOpen)
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -18,6 +21,9 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
       }
       if (languageRef.current && !languageRef.current.contains(event.target)) {
         setIsLanguageOpen(false)
+      }
+      if (categoriesRef.current && !categoriesRef.current.contains(event.target)) {
+        setIsCategoriesOpen(false)
       }
     }
 
@@ -29,15 +35,14 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
 
   return (
     <nav className="bg-white shadow-md border-b border-gray-200 sticky top-0 z-50">
-      {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <div className="flex items-center">
-            <img src="/api/placeholder/80/40" alt="OLX" className="h-8 w-auto" />
+            <div className="bg-blue-600 text-white font-bold text-xl px-3 py-1 rounded">
+              SEL
+            </div>
           </div>
 
-          {/* Location Dropdown */}
           <div className="hidden md:flex items-center ml-4">
             <div className="relative" ref={locationRef}>
               <button 
@@ -53,7 +58,6 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
                 </svg>
               </button>
               
-              {/* Location Dropdown */}
               {isLocationOpen && (
                 <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-md shadow-lg border z-50">
                   <div className="p-4">
@@ -71,7 +75,6 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
             </div>
           </div>
 
-          {/* Search Bar */}
           <div className="flex-1 max-w-2xl mx-4">
             <div className="relative">
               <div className="flex">
@@ -89,9 +92,7 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
             </div>
           </div>
 
-          {/* Right side items */}
           <div className="hidden md:flex items-center space-x-4">
-            {/* Language Dropdown */}
             <div className="relative" ref={languageRef}>
               <button 
                 onClick={toggleLanguage}
@@ -103,7 +104,6 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
                 </svg>
               </button>
               
-              {/* Language Dropdown */}
               {isLanguageOpen && (
                 <div className="absolute top-full right-0 mt-1 w-48 bg-white rounded-md shadow-lg border z-50">
                   <div className="p-2">
@@ -117,14 +117,12 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
               )}
             </div>
 
-            {/* Heart/Favorites Icon */}
             <button className="p-2 text-gray-600 hover:text-red-500 transition-colors">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </button>
 
-            {/* Login */}
             {!isAuthenticated ? (
               <button
                 onClick={onAuthClick}
@@ -141,8 +139,7 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
               </div>
             )}
 
-            {/* SELL Button */}
-            <button className="bg-white border-2 border-black text-black font-bold px-6 py-2 rounded-full hover:bg-gray-50 transition-colors flex items-center space-x-2">
+            <button className="bg-yellow-400 border-2 border-yellow-400 text-black font-bold px-6 py-2 rounded-full hover:bg-yellow-300 transition-colors flex items-center space-x-2">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
               </svg>
@@ -150,7 +147,6 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
             </button>
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
@@ -164,16 +160,25 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
         </div>
       </div>
 
-      {/* Categories Bar */}
       <div className="bg-white border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center space-x-8 py-3 overflow-x-auto">
-            <button className="flex items-center space-x-1 text-gray-800 font-medium whitespace-nowrap">
-              <span>ALL CATEGORIES</span>
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </button>
+          <div className="flex items-center space-x-8 py-3 overflow-x-hidden">
+            <div className="relative" ref={categoriesRef}>
+              <button 
+                onClick={toggleCategories}
+                className="flex items-center space-x-1 text-gray-800 font-medium whitespace-nowrap hover:text-blue-600 transition-colors"
+              >
+                <span>ALL CATEGORIES</span>
+                <svg 
+                  className={`w-4 h-4 transform transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} 
+                  fill="currentColor" 
+                  viewBox="0 0 20 20"
+                >
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+            
             {['Cars', 'Motorcycles', 'Mobile Phones', 'For Sale: Houses & Apartments', 'Scooters', 'Commercial & Other Vehicles', 'For Rent: Houses & Apartments'].map((category) => (
               <button
                 key={category}
@@ -186,11 +191,165 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Full-Width Category Dropdown */}
+      {isCategoriesOpen && (
+        <div className="absolute left-0 right-0 top-full bg-white shadow-xl border-b border-gray-200 z-[100]">
+          <div className="max-w-7xl mx-auto px-4 py-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {/* Cars Column */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Cars</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Cars</button>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Bikes</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Motorcycles</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Scooters</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Spare Parts</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Bicycles</button>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Properties</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">For Sale: Houses & Apartments</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">For Rent: Houses & Apartments</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Lands & Plots</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">For Rent: Shops & Offices</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">For Sale: Shops & Offices</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">PG & Guest Houses</button>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Electronics & Appliances</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">TVs, Video - Audio</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Kitchen & Other Appliances</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Computers & Laptops</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Cameras & Lenses</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Games & Entertainment</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Fridges</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Computer Accessories</button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobiles Column */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Mobiles</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Mobile Phones</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Accessories</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Tablets</button>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Commercial Vehicles & Spares</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Commercial & Other Vehicles</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Spare Parts</button>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Jobs</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Data entry & Back office</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Sales & Marketing</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">BPO & Telecaller</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Driver</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Office Assistant</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Delivery & Collection</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Teacher</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Cook</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Receptionist & Front office</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Operator & Technician</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">IT Engineer & Developer</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Hotel & Travel Executive</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Accountant</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Designer</button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Furniture Column */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Furniture</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Sofa & Dining</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Beds & Wardrobes</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Home Decor & Garden</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Kids Furniture</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Other Household Items</button>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Fashion</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Men</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Women</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Kids</button>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Pets</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Fishes & Aquarium</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Pet Food & Accessories</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Dogs</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Other Pets</button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Books & Services Column */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Books, Sports & Hobbies</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Books</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Gym & Fitness</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Musical Instruments</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Sports Equipment</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Other Hobbies</button>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-black text-base mb-3">Services</h3>
+                  <div className="space-y-2">
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Education & Classes</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Tours & Travel</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Electronics Repair & Services</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Health & Beauty</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Home Renovation & Repair</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Cleaning & Pest Control</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Legal & Documentation Services</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Packers & Movers</button>
+                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Other Services</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200">
           <div className="px-4 py-3 space-y-3">
-            {/* Mobile Search */}
             <div className="flex">
               <input
                 type="text"
@@ -204,7 +363,6 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
               </button>
             </div>
 
-            {/* Mobile Location */}
             <button className="flex items-center space-x-2 text-gray-800">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
@@ -212,7 +370,6 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
               <span>India</span>
             </button>
 
-            {/* Mobile Navigation */}
             {!isAuthenticated ? (
               <button
                 onClick={onAuthClick}
@@ -231,7 +388,7 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
               </div>
             )}
 
-            <button className="w-full bg-white border-2 border-black text-black font-bold py-2 rounded-full hover:bg-gray-50 transition-colors">
+            <button className="w-full bg-yellow-400 border-2 border-yellow-400 text-black font-bold py-2 rounded-full hover:bg-yellow-300 transition-colors">
               + SELL
             </button>
           </div>
