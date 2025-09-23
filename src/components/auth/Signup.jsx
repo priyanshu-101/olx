@@ -197,14 +197,14 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md"
+        className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-4xl"
       >
         {/* SEL-style header */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-center mb-8"
+          className="text-center mb-6"
         >
           <h1 className="text-4xl font-bold text-gray-800 mb-2">
             <span className="text-green-600">S</span>
@@ -215,30 +215,49 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
           <p className="text-gray-500 text-sm">Create your account to start buying and selling</p>
         </motion.div>
 
-        {/* Quick Google Sign-up */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-        >
-          <GoogleAuth 
-            type="signup" 
-            onSuccess={handleGoogleSuccess}
-            className="mb-6 hover:border-green-300 hover:bg-green-50"
-          />
-        </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="lg:border-r lg:border-gray-200 lg:pr-8 flex flex-col justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="text-center"
+            >
+              <GoogleAuth 
+                type="signup" 
+                onSuccess={handleGoogleSuccess}
+                className="mb-6 hover:border-green-300 hover:bg-green-50"
+              />
+            </motion.div>
 
-        <div className="relative mb-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300" />
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white text-gray-500 font-medium">Or create account with email</span>
+              </div>
+            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.0 }}
+              className="text-center"
+            >
+              <p className="text-sm text-gray-600">
+                Already have an account?{' '}
+                <button
+                  onClick={onToggleAuth}
+                  className="font-medium text-green-600 hover:text-green-500 transition-colors"
+                >
+                  Sign in here
+                </button>
+              </p>
+            </motion.div>
           </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-gray-500 font-medium">Or create account with email</span>
-          </div>
-        </div>
+          <div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Email/Contact Field */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -270,8 +289,6 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
               Use any email address or 10-digit Indian mobile number
             </p>
           </motion.div>
-
-          {/* Username Field */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -306,11 +323,9 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
               3-20 characters, letters, numbers and underscore only
             </p>
           </motion.div>
-
-          {/* Profile Image Upload */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -348,8 +363,6 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
               Upload JPG, PNG or GIF. Max size 5MB.
             </p>
           </motion.div>
-
-          {/* Password Field */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -377,8 +390,6 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
               Must be exactly 8 characters with uppercase, lowercase, digit & special character
             </p>
           </motion.div>
-
-          {/* Confirm Password Field */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -448,23 +459,8 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
             )}
           </motion.button>
         </form>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.0 }}
-          className="mt-6 text-center"
-        >
-          <p className="text-sm text-gray-600">
-            Already have an account?{' '}
-            <button
-              onClick={onToggleAuth}
-              className="font-medium text-green-600 hover:text-green-500 transition-colors"
-            >
-              Sign in here
-            </button>
-          </p>
-        </motion.div>
+        </div>
+        </div>
       </motion.div>
     </div>
   )
