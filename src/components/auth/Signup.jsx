@@ -258,7 +258,7 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
                   />
                 ) : (
                   <div className="w-8 h-8 rounded-full bg-gray-200 border border-gray-300 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </div>
@@ -269,7 +269,7 @@ const Signup = ({ onToggleAuth, onAuthSuccess }) => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="block w-full text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+                  className="block w-full text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-medium file:bg-blue-50 file:text-[#004896] hover:file:bg-green-100"
                 />
               </div>
             </div>
