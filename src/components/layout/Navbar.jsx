@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import SEL_LOGO from '../../assets/sel_logo.png'
 
 const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
   const [isLocationOpen, setIsLocationOpen] = useState(false)
@@ -38,9 +39,7 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
       <div className="w-full mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <div className="bg-blue-600 text-white font-bold text-xl px-3 py-1 rounded">
-              SEL
-            </div>
+              <img src={SEL_LOGO} alt="SEL Logo"  className="h-28" />'
           </div>
 
           <div className="hidden md:flex items-center ml-4">
