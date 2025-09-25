@@ -6,6 +6,7 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
+  const [activeCategory, setActiveCategory] = useState(null)
   const locationRef = useRef(null)
   const languageRef = useRef(null)
   const categoriesRef = useRef(null)
@@ -14,6 +15,15 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
   const toggleLanguage = () => setIsLanguageOpen(!isLanguageOpen)
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const toggleCategories = () => setIsCategoriesOpen(!isCategoriesOpen)
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category)
+    // Navigate to category page based on category
+    if (category === 'Motorcycles') {
+      window.location.href = '/motorcycles'
+    }
+    // Add more category navigation as needed
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -36,10 +46,10 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
 
   return (
     <nav className="bg-white shadow-md border-b border-gray-200 sticky top-0 z-50">
-      <div className="w-full mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+      <div className="w-full max-w-none w-full mx-auto px-0 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 gap-3 px-4 sm:px-0">
           <div className="flex items-center">
-              <img src={SEL_LOGO} alt="SEL Logo"  className="h-28" />'
+              <img src={SEL_LOGO} alt="SEL Logo"  className="h-28" />
           </div>
 
           <div className="hidden md:flex items-center ml-4">
@@ -74,7 +84,7 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
             </div>
           </div>
 
-          <div className="flex-1 max-w-2xl mx-4">
+          <div className="flex-1 max-w-2xl mx-4 max-md:mx-0">
             <div className="relative">
               <div className="flex">
                 <input
@@ -160,9 +170,9 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
       </div>
 
       <div className="bg-white border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center space-x-8 py-3 overflow-x-hidden">
-            <div className="relative" ref={categoriesRef}>
+        <div className="w-full max-w-none lg:max-w-7xl mx-auto px-0 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4 py-3 px-4 sm:px-0 overflow-x-auto scrollbar-hide">
+            <div className="relative flex-shrink-0" ref={categoriesRef}>
               <button 
                 onClick={toggleCategories}
                 className="flex items-center space-x-1 text-gray-800 font-medium whitespace-nowrap hover:text-blue-600 transition-colors"
@@ -181,7 +191,12 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
             {['Cars', 'Motorcycles', 'Mobile Phones', 'For Sale: Houses & Apartments', 'Scooters', 'Commercial & Other Vehicles', 'For Rent: Houses & Apartments'].map((category) => (
               <button
                 key={category}
-                className="text-gray-600 hover:text-blue-600 whitespace-nowrap transition-colors text-sm"
+                onClick={() => handleCategoryClick(category)}
+                className={`whitespace-nowrap transition-colors text-sm px-3 py-1 rounded ${
+                  activeCategory === category 
+                    ? 'text-blue-600 bg-blue-50 font-medium' 
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
               >
                 {category}
               </button>
@@ -190,12 +205,10 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
         </div>
       </div>
 
-      {/* Full-Width Category Dropdown */}
       {isCategoriesOpen && (
         <div className="absolute left-0 right-0 top-full bg-white shadow-xl border-b border-gray-200 z-[100]">
           <div className="max-w-7xl mx-auto px-4 py-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {/* Cars Column */}
               <div className="space-y-6">
                 <div>
                   <h3 className="font-bold text-black text-base mb-3">Cars</h3>
@@ -207,7 +220,12 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
                 <div>
                   <h3 className="font-bold text-black text-base mb-3">Bikes</h3>
                   <div className="space-y-2">
-                    <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Motorcycles</button>
+                    <button 
+                      onClick={() => handleCategoryClick('Motorcycles')}
+                      className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1"
+                    >
+                      Motorcycles
+                    </button>
                     <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Scooters</button>
                     <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Spare Parts</button>
                     <button className="block w-full text-left text-sm text-gray-700 hover:text-blue-600 py-1">Bicycles</button>
@@ -240,7 +258,6 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
                 </div>
               </div>
 
-              {/* Mobiles Column */}
               <div className="space-y-6">
                 <div>
                   <h3 className="font-bold text-black text-base mb-3">Mobiles</h3>
@@ -280,7 +297,6 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
                 </div>
               </div>
 
-              {/* Furniture Column */}
               <div className="space-y-6">
                 <div>
                   <h3 className="font-bold text-black text-base mb-3">Furniture</h3>
@@ -313,7 +329,6 @@ const Navbar = ({ onAuthClick, isAuthenticated = false, user = null }) => {
                 </div>
               </div>
 
-              {/* Books & Services Column */}
               <div className="space-y-6">
                 <div>
                   <h3 className="font-bold text-black text-base mb-3">Books, Sports & Hobbies</h3>
