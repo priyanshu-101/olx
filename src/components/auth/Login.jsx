@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion as Motion } from 'framer-motion'
 import GoogleAuth from './GoogleAuth'
 import OtpVerification from './OtpVerification'
+import ForgotPassword from './ForgotPassword'
 import SEL_LOGO from '../../assets/SEL_LOGO.png'
 
 const Login = ({ onToggleAuth, onAuthSuccess }) => {
@@ -13,6 +14,7 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
   const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(false)
   const [showOtpScreen, setShowOtpScreen] = useState(false)
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
   const [generatedOtp, setGeneratedOtp] = useState('')
   const [otpSentTo, setOtpSentTo] = useState('')
 
@@ -111,6 +113,14 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
     setShowOtpScreen(false);
   };
 
+  const handleForgotPasswordClick = () => {
+    setShowForgotPassword(true);
+  };
+
+  const handleBackFromForgotPassword = () => {
+    setShowForgotPassword(false);
+  };
+
   const handleResendOtp = () => {
     // Generate new OTP
     const randomOtp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -119,6 +129,10 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
     console.log(`New OTP sent to ${otpSentTo}: ${randomOtp}`);
     alert(`Demo: New OTP sent to ${otpSentTo}\nYour OTP is: ${randomOtp}`);
   };
+
+  if (showForgotPassword) {
+    return <ForgotPassword onBackToLogin={handleBackFromForgotPassword} />
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4"
@@ -204,9 +218,12 @@ const Login = ({ onToggleAuth, onAuthSuccess }) => {
               />
               <span className="ml-2 text-xs text-gray-600">Remember me</span>
             </label>
-            <a href="#" className="text-xs text-blue-600 hover:text-blue-800 transition-colors">
-              Forgot Passsword?
-            </a>
+            <button
+              onClick={handleForgotPasswordClick}
+              className="text-xs text-blue-600 hover:text-blue-800 transition-colors"
+            >
+              Forgot Password?
+            </button>
           </Motion.div>
 
           <Motion.button
