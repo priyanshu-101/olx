@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'r
 import Home from './pages/Home'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
-
+import Motorcycles from './pages/Motorcycles'
 const AppRoutes = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState(null)
@@ -74,6 +74,7 @@ const AppRoutes = () => {
         } 
       />
       <Route path="*" element={<Navigate to="/" replace />} />
+       <Route path="/motorcycles" element={<Motorcycles />} />
     </Routes>
   )
 }
